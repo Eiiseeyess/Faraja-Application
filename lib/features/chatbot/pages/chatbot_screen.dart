@@ -214,12 +214,15 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                   : theme.colorScheme.primaryContainer,
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: Text(
-                              message.message,
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: message.isFromUser
-                                    ? theme.colorScheme.onPrimary
-                                    : theme.colorScheme.onPrimaryContainer,
+                            child: Flexible(
+                              child: Text(
+                                message.message,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: message.isFromUser
+                                      ? theme.colorScheme.onPrimary
+                                      : theme.colorScheme.onPrimaryContainer,
+                                ),
+                                
                               ),
                             ),
                           ),
