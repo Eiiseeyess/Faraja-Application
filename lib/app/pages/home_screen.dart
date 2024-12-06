@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final AuthController _authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -27,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, 
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Hey, 👋",
@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     PopupMenuButton<String>(
-                      icon: const Icon(Icons.more_vert), 
+                      icon: const Icon(Icons.more_vert),
                       onSelected: (String value) async {
                         if (value == "logout") {
                           // Show a confirmation dialog before logging out
@@ -50,7 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             // Navigate to the login screen
                             if (context.mounted) {
-                              Navigator.pushReplacementNamed(context, RouteNames.LOGIN_SCREEN);
+                              Navigator.pushReplacementNamed(
+                                  context, RouteNames.LOGIN_SCREEN);
                             }
                           }
                         }
@@ -60,9 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           value: "logout",
                           child: Row(
                             children: [
-                              Icon(
-                                Icons.logout,
-                              ),
+                              Icon(Icons.logout),
                               SizedBox(width: 8.0),
                               Text("Log Out"),
                             ],
@@ -86,9 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   DateFormat("EEEE, MMMM dd").format(DateTime.now()),
                   style: theme.textTheme.titleMedium,
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
                 Text(
                   "Below are articles suggested for you",
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -96,17 +93,84 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: Constants.SPACING),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "Search for articles...",
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                // TextField(
+                //   decoration: InputDecoration(
+                //     hintText: "Search for articles...",
+                //     prefixIcon: const Icon(Icons.search),
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(8.0),
+                //     ),
+                //   ),
+                //   onChanged: (value) {
+                //     // handling search queries
+                //   },
+                // ),
+                const SizedBox(height: 30),
+                // Tool cards for creating, viewing, editing, and deleting articles
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildToolCard(
+                      title: "Create Your Article",
+                      icon: Icons.create,
+                      onTap: () {
+                        // Navigate to the article creation page
+                        Navigator.pushNamed(context, "/create_article");
+                      },
                     ),
-                  ),
-                  onChanged: (value) {
-                    //handling search queries
-                  },
+                    _buildToolCard(
+                      title: "View Articles",
+                      icon: Icons.article,
+                      onTap: () {
+                        // Navigate to the articles list page
+                        Navigator.pushNamed(context, "/view_articles");
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20), // Space between rows
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildToolCard(
+                      title: "Trending Topics",
+                      icon: Icons.trending_up,
+                      onTap: () {
+                        // Navigate to the trending topics page
+                        Navigator.pushNamed(context, "/trending_topics");
+                      },
+                    ),
+                    _buildToolCard(
+                      title: "Edit Your Article",
+                      icon: Icons.edit,
+                      onTap: () {
+                        // Navigate to the edit article page
+                        Navigator.pushNamed(context, "/edit_article");
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20), // Space between rows
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildToolCard(
+                      title: "About Articles",
+                      icon: Icons.info_outline,
+                      onTap: () {
+                        // Navigate to the about articles page
+                        Navigator.pushNamed(context, "/about_articles");
+                      },
+                    ),
+                    _buildToolCard(
+                      title: "Delete Your Article",
+                      icon: Icons.delete,
+                      onTap: () {
+                        // Navigate to the delete article page
+                        Navigator.pushNamed(context, "/delete_article");
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -123,11 +187,6 @@ class _HomeScreenState extends State<HomeScreen> {
           if (await canLaunchUrl(dialerUri)) {
             await launchUrl(dialerUri);
           } else {
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   const SnackBar(
-            //     content: Text("Sorry we are currently unable to open dialer"),
-            //   ),
-            // );
             debugPrint("Unable to open dialer");
           }
         },
@@ -161,6 +220,50 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         );
       },
+    );
+  }
+
+  // Helper method to build the clickable tool cards
+  Widget _buildToolCard({
+    required String title,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        elevation: 5.0,
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          width: (MediaQuery.of(context).size.width - 40) / 2, // Adjust width to fit 2 cards per row
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            color: Theme.of(context).colorScheme.secondaryContainer,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 40,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
