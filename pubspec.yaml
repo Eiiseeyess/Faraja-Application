@@ -47,6 +47,8 @@ dependencies:
   shared_preferences: ^2.2.3
   http: ^1.2.2
   dartz: ^0.10.1
+  confetti: ^0.8.0
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -74,7 +76,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/images/profile_placeholder.png
     - assets/logos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
