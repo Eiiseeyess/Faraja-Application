@@ -103,7 +103,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 - Faraja is inspired by the need to create a supportive and inclusive mental health platform.
 - Special thanks to contributors and users for believing in this project.
-
----
-
-Feel free to enhance or customize this README to align it more with your project’s goals and development guidelines! 😊
